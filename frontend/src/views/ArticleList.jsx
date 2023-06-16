@@ -37,7 +37,6 @@ export default function ArticleList() {
       setUserCategories(response.data.userCategories);
       setCategories(response.data.categories);
       setLoading(false);
-      console.log(response.data.userCategories);
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -58,7 +57,7 @@ export default function ArticleList() {
 
   return (
     <>
-      <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-24 border-b-4 border-red-500">
+      <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32 border-b-4 border-red-500">
         <div
           className="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:-z-10 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl"
           aria-hidden="true"

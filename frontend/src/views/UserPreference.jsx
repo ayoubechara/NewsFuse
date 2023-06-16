@@ -121,8 +121,8 @@ export default function UserPreference() {
             Edit Your News Preferences
           </h5>
           <p className="mb-5 text-gray-500 dark:text-gray-400">
-            Customize your content preferences with preferred categories,
-            sources, and authors.
+            Customize your content preferences with preferred categories and
+            sources.
           </p>
           <form onSubmit={onSubmit}>
             <h4 className="mb-4 text-sm font-medium text-gray-300 bg-gray-600 rounded px-2 py-1.5">
@@ -136,39 +136,40 @@ export default function UserPreference() {
             <ul className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 lg:grid-cols-6">
               {!loading && (
                 <>
-                  {categories.map((category, i) => (
-                    <li key={i}>
-                      {userCategories &&
-                      userCategories.includes(category.name) ? (
-                        <input
-                          type="checkbox"
-                          id={"category " + i}
-                          value={category.name}
-                          onChange={handleCategoriesCheckboxChange}
-                          defaultChecked
-                          className="hidden peer"
-                        />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          id={"category " + i}
-                          value={category.name}
-                          onChange={handleCategoriesCheckboxChange}
-                          className="hidden peer"
-                        />
-                      )}
-                      <label
-                        htmlFor={"category " + i}
-                        className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                      >
-                        <div className="block">
-                          <div className="w-full text-lg font-semibold">
-                            {category.name}
+                  {categories &&
+                    categories.map((category, i) => (
+                      <li key={i}>
+                        {userCategories &&
+                        userCategories.includes(category.name) ? (
+                          <input
+                            type="checkbox"
+                            id={"category " + i}
+                            value={category.name}
+                            onChange={handleCategoriesCheckboxChange}
+                            defaultChecked
+                            className="hidden peer"
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            id={"category " + i}
+                            value={category.name}
+                            onChange={handleCategoriesCheckboxChange}
+                            className="hidden peer"
+                          />
+                        )}
+                        <label
+                          htmlFor={"category " + i}
+                          className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                        >
+                          <div className="block">
+                            <div className="w-full text-lg font-semibold">
+                              {category.name}
+                            </div>
                           </div>
-                        </div>
-                      </label>
-                    </li>
-                  ))}
+                        </label>
+                      </li>
+                    ))}
                 </>
               )}
             </ul>
@@ -185,38 +186,47 @@ export default function UserPreference() {
             <ul className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 lg:grid-cols-4">
               {!loading && (
                 <>
-                  {sources.map((source, i) => (
-                    <li key={i}>
-                      {userSources && userSources.includes(source.id) ? (
-                        <input
-                          type="checkbox"
-                          id={"source " + i}
-                          value={source.id}
-                          onChange={handleSourcesCheckboxChange}
-                          defaultChecked
-                          className="hidden peer"
-                        />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          id={"source " + i}
-                          value={source.id}
-                          onChange={handleSourcesCheckboxChange}
-                          className="hidden peer"
-                        />
-                      )}
-                      <label
-                        htmlFor={"source " + i}
-                        className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                      >
-                        <div className="block">
-                          <div className="w-full text-lg font-semibold">
-                            {source.name}
+                  {sources &&
+                    sources.map((source, i) => (
+                      <li key={i}>
+                        {userSources && userSources.includes(source.id) ? (
+                          <input
+                            type="checkbox"
+                            id={"source " + i}
+                            value={source.id}
+                            onChange={handleSourcesCheckboxChange}
+                            defaultChecked
+                            className="hidden peer"
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            id={"source " + i}
+                            value={source.id}
+                            onChange={handleSourcesCheckboxChange}
+                            className="hidden peer"
+                          />
+                        )}
+                        <label
+                          htmlFor={"source " + i}
+                          className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                        >
+                          <div className="block">
+                            <div className="w-full text-lg font-semibold">
+                              {source.name}
+                            </div>
                           </div>
-                        </div>
-                      </label>
-                    </li>
-                  ))}
+                        </label>
+                      </li>
+                    ))}
+                  {!sources && (
+                    <h1 className="col-span-3 mb-4 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">
+                      No sources found.{" "}
+                      <span className="text-sm font-thin">
+                        (Change the API KEY)
+                      </span>
+                    </h1>
+                  )}
                 </>
               )}
             </ul>

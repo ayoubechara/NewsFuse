@@ -1,17 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../context/ContextProvider";
 import { Link, Navigate, Outlet } from "react-router-dom";
-import { Dropdown, Avatar } from "flowbite-react";
-import {
-  UserIcon,
-  ArrowLeftOnRectangleIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
 import axiosClient from "../axios";
 
 export default function DefaultLayout() {
   const { currentUser, userToken, setCurrentUser, setUserToken } =
     useStateContext();
+
+  const buttonRef = useRef();
+  const menuRef = useRef();
 
   useEffect(() => {
     document.body.width = "100%";
@@ -33,10 +30,26 @@ export default function DefaultLayout() {
     });
   };
 
+  const toggleMenu = () => {
+    const menu = document.querySelector(".custom-dropdown");
+    menu.classList.toggle("hidden");
+  };
+
+  window.addEventListener("click", (e) => {
+    const menu = document.querySelector(".custom-dropdown");
+    if (
+      buttonRef.current &&
+      !buttonRef.current.contains(e.target) &&
+      menuRef.current &&
+      !menuRef.current.contains(e.target)
+    ) {
+      menu.classList.add("hidden");
+    }
+  });
   return (
     <div className="bg-gray-900">
       <nav
-        className="bg-white border-gray-200 dark:bg-gray-900 overflow-hidden"
+        className="bg-white border-gray-200 dark:bg-gray-900"
         style={{
           borderBottom: "0.5px solid #1F2937",
         }}
@@ -63,45 +76,86 @@ export default function DefaultLayout() {
             </span>
           </Link>
           <div className="flex items-center md:order-2">
-            <Dropdown
-              inline
-              label={
-                <>
-                  <span className="me-3 text-gray-200 text-sm font-semibold">
-                    {currentUser.name}
-                  </span>
-
-                  <Avatar
-                    bordered
-                    img="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg"
-                    rounded
-                  />
-                </>
-              }
-            >
-              <Dropdown.Item>
-                <Link
-                  to="/user-profile"
-                  className="flex flex-inline justify-center items-center"
+            <div className="relative flex flex-col justify-center">
+              <button
+                ref={buttonRef}
+                onClick={toggleMenu}
+                className="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-red-600 dark:hover:text-red-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white"
+                type="button"
+              >
+                <span className="sr-only">Open user menu</span>
+                <img
+                  className="w-8 h-8 mr-2 rounded-full"
+                  src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg"
+                  alt="user photo"
+                />
+                <p className="pb-1">{currentUser.name}</p>
+                <svg
+                  className="w-4 h-4 mx-1.5"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <UserIcon className="h-4 text-white mr-2" /> Edit Profile
-                </Link>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <a
-                  href="#"
-                  className="flex flex-inline justify-center items-center"
-                  onClick={logout}
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <div
+                ref={menuRef}
+                className="custom-dropdown z-10 hidden absolute top-11 right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+              >
+                <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                  <div className="font-medium ">{currentUser.name}</div>
+                  <div className="truncate">{currentUser.email}</div>
+                </div>
+                <ul
+                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton"
                 >
-                  <ArrowLeftOnRectangleIcon className="h-4 text-white mr-2" />{" "}
-                  Sign out
-                </a>
-              </Dropdown.Item>
-            </Dropdown>
+                  <li>
+                    <Link
+                      onClick={toggleMenu}
+                      to="/user-profile"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      onClick={toggleMenu}
+                      to="/user-preference"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Preferences
+                    </Link>
+                  </li>
+                </ul>
+                <div className="py-2">
+                  <ul
+                    className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton"
+                  >
+                    <li>
+                      <button
+                        onClick={logout}
+                        className="block text-start px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full"
+                      >
+                        Sign out
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
-      <div style={{ minHeight: "calc(100vh - 127px)" }}>
+      <div style={{ minHeight: "calc(100vh - 119px)" }}>
         <Outlet />
       </div>
 
