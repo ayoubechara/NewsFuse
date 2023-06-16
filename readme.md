@@ -15,8 +15,8 @@ Follow the steps below to set up and run the News Aggregator website:
 1. Clone the repository:
 
    ```
-   git clone <repository-url>
-   cd news-aggregator
+   git clone https://github.com/eKyrius/NewsFuse.git
+   cd NewsFuse
    ```
 
 2. Configure the backend:
@@ -33,7 +33,19 @@ Follow the steps below to set up and run the News Aggregator website:
    docker-compose up --build
    ```
 
-5. Access the application:
+5. Run Laravel migrations:
+
+   ```
+   docker exec -it newsfuse-backend-1 sh
+   ```
+
+   After that you have to migrate the tables with seeds to fill the categories table.
+
+   ```
+   php artisan migrate:refresh --seed
+   ```
+
+6. Access the application:
    - Backend API: http://localhost:8000
    - Frontend application: http://localhost:3000
 
@@ -44,7 +56,7 @@ Once the project is up and running, you can use the News Aggregator website as f
 1. User Registration and Authentication:
 
    - Visit the frontend application URL (http://localhost:3000) in your web browser.
-   - Create a new account by clicking on the "Register" link and providing the required information.
+   - Create a new account by clicking on the "Create account" link and providing the required information.
    - After creating your account you will get redirected to a page to select your preferred sources.
    - After successful registration, log in using your credentials on the login page.
 
