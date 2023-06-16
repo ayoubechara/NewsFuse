@@ -44,17 +44,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
-    public function sources()
-    {
-        return $this->belongsToMany(Source::class);
-    }
-    public function authors()
-    {
-        return $this->belongsToMany(Author::class);
-    }
 }

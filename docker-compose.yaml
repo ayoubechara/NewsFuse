@@ -1,0 +1,40 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: database
+      DB_DATABASE: news_fuse
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    ports:
+      - '8000:8000'
+    networks:
+      - my-network
+    depends_on:
+      - database
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - my-network
+  database:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'news_fuse'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - database_data:/var/lib/mysql
+    networks:
+      - my-network
+networks:
+  my-network:
+volumes:
+  database_data:

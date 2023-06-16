@@ -45,12 +45,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => 'database',
             'port' => env('DB_PORT', '3306'),
-            'database' => 'news_aggregator',
-            'username' => 'root',
-            'password' => '',
+            'database' => env('DB_DATABASE', 'news_fuse'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
