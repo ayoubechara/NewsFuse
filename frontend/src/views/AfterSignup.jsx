@@ -4,39 +4,25 @@ import CheckboxesSkeleton from "../views/CheckboxesSkeleton";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function AfterSignup() {
-  const [sources, setSources] = useState([]);
   const [userSources, setUserSources] = useState([]);
   const [sourcesCheckboxes, setSourcesCheckboxes] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const sources = ["NewsAPI", "The Guardian", "The New York Times"];
+
+  //to check from where we got redirected
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    //to make sure we got redirected from the the signup page
     let prevPath = "";
     if (location.state) {
       prevPath = location.state.prevPath;
     }
-    console.log(prevPath);
     if (prevPath != "/signup") {
       navigate("/error-404");
     }
-    fetchSources();
   }, []);
-
-  const fetchSources = async () => {
-    setLoading(true);
-    try {
-      const response = await axiosClient.get("/get-preferences");
-      setSources(response.data.sources);
-      setUserSources(response.data.userSources);
-      setSourcesCheckboxes(response.data.userSources);
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch sources:", error);
-      setLoading(false);
-    }
-  };
 
   const handleSourcesCheckboxChange = (event) => {
     const checkboxValue = event.target.value;
@@ -85,48 +71,37 @@ export default function AfterSignup() {
           <p className="mb-6 text-gray-500 dark:text-gray-400">
             Choose at least one data source to personalize your news feed.
           </p>
-          {loading && (
-            <div>
-              <CheckboxesSkeleton />
-            </div>
-          )}
           <ul className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 lg:grid-cols-4">
-            {!loading && (
-              <>
-                {sources.map((source, i) => (
-                  <li key={i}>
-                    {userSources && userSources.includes(source.id) ? (
-                      <input
-                        type="checkbox"
-                        id={"source " + i}
-                        value={source.id}
-                        onChange={handleSourcesCheckboxChange}
-                        defaultChecked
-                        className="hidden peer"
-                      />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        id={"source " + i}
-                        value={source.id}
-                        onChange={handleSourcesCheckboxChange}
-                        className="hidden peer"
-                      />
-                    )}
-                    <label
-                      htmlFor={"source " + i}
-                      className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                    >
-                      <div className="block">
-                        <div className="w-full text-lg font-semibold">
-                          {source.name}
-                        </div>
-                      </div>
-                    </label>
-                  </li>
-                ))}
-              </>
-            )}
+            {sources.map((source, i) => (
+              <li key={i}>
+                {userSources && userSources.includes(source) ? (
+                  <input
+                    type="checkbox"
+                    id={"source " + i}
+                    value={source}
+                    onChange={handleSourcesCheckboxChange}
+                    defaultChecked
+                    className="hidden peer"
+                  />
+                ) : (
+                  <input
+                    type="checkbox"
+                    id={"source " + i}
+                    value={source}
+                    onChange={handleSourcesCheckboxChange}
+                    className="hidden peer"
+                  />
+                )}
+                <label
+                  htmlFor={"source " + i}
+                  className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                >
+                  <div className="block">
+                    <div className="w-full text-lg font-semibold">{source}</div>
+                  </div>
+                </label>
+              </li>
+            ))}
           </ul>
           <div>
             {sourcesCheckboxes.length > 0 ? (

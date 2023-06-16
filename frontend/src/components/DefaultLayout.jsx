@@ -86,7 +86,7 @@ export default function DefaultLayout() {
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="w-8 h-8 mr-2 rounded-full"
-                  src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg"
+                  src="wolf.png"
                   alt="user photo"
                 />
                 <p className="pb-1">{currentUser.name}</p>
@@ -119,10 +119,19 @@ export default function DefaultLayout() {
                   <li>
                     <Link
                       onClick={toggleMenu}
+                      to="/"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      onClick={toggleMenu}
                       to="/user-profile"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
-                      Profile
+                      Edit Profile
                     </Link>
                   </li>
                   <li>
@@ -131,7 +140,7 @@ export default function DefaultLayout() {
                       to="/user-preference"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
-                      Preferences
+                      Edit Preferences
                     </Link>
                   </li>
                 </ul>

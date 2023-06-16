@@ -64,7 +64,6 @@ Once the project is up and running, you can use the News Aggregator website as f
 3. Personalized News Feed:
 
    - To customize your news feed according to your preferences, simply access the preferences page by clicking on 'Preferences' located in the user dropdown menu.
-     ![image](https://github.com/eKyrius/NewsFuse/assets/59415322/6686e24b-f97b-4234-8fea-30537d47b416)
    - Select your preferred categories and sources to personalize the articles displayed on your news feed.
 
 4. Mobile-Responsive Design:

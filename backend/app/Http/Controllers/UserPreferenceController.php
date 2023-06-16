@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class UserPreferenceController extends Controller
@@ -13,13 +14,22 @@ class UserPreferenceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function index(Request $request)
     {
-        $user = $request->user();
+        /** @var User $user*/
+        $user = Auth::user();
 
-        return response()->json([
-            'preferences' => $user->preferences,
-        ]);
+        $user_categories = json_decode($user->categories, true);
+        $user_sources = json_decode($user->sources, true);
+
+        $categories = Category::get();
+
+        return response()->json(array(
+            'categories' => $categories,
+            'userCategories' => $user_categories,
+            'userSources' => $user_sources,
+        ));
     }
 
     /**
@@ -46,7 +56,6 @@ class UserPreferenceController extends Controller
         }
 
         $user->save();
-        // Update user preferences logic here
 
         return response()->json(['message', 'preferences updated!']);
     }

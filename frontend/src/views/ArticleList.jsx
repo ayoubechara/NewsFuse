@@ -5,7 +5,6 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
-  const [sources, setSources] = useState([]);
   const [userSources, setUserSources] = useState([]);
   const [userCategories, setUserCategories] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -17,7 +16,7 @@ export default function ArticleList() {
   const [source, setSource] = useState("");
   const [date, setDate] = useState("");
 
-  const [limit, setLimit] = useState(21);
+  const [limit, setLimit] = useState(12);
 
   const fetchFilteredArticles = async () => {
     setLoading(true);
@@ -31,9 +30,9 @@ export default function ArticleList() {
           limit,
         },
       });
-      setArticles(response.data.articles);
+      console.log(response.data);
+      setArticles(response.data.allArticles);
       setUserSources(response.data.userSources);
-      setSources(response.data.sources);
       setUserCategories(response.data.userCategories);
       setCategories(response.data.categories);
       setLoading(false);
@@ -91,8 +90,8 @@ export default function ArticleList() {
               News
             </h2>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Your news feed is customized based on the categories, sources and
-              authors you like.
+              Your news feed is customized based on the categories and sources
+              you like.
             </p>
           </div>
           <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
@@ -128,7 +127,6 @@ export default function ArticleList() {
                     value={category}
                     onChange={(e) => {
                       setCategory(e.target.value);
-                      setSource("");
                     }}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   >
@@ -157,21 +155,18 @@ export default function ArticleList() {
                     value={source}
                     onChange={(e) => {
                       setSource(e.target.value);
-                      setCategory("");
                     }}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
                   >
                     <option value="" defaultValue>
                       Choose a source
                     </option>
-                    {sources &&
-                      sources.map((source, i) =>
-                        userSources.includes(source.id) ? (
-                          <option key={i++} value={source.id}>
-                            {source.name}
-                          </option>
-                        ) : null
-                      )}
+                    {userSources &&
+                      userSources.map((source, i) => (
+                        <option key={i++} value={source}>
+                          {source}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
@@ -222,8 +217,8 @@ export default function ArticleList() {
                                 borderBottom: "5px solid #C81E1E",
                               }}
                               src={
-                                article.urlToImage
-                                  ? article.urlToImage
+                                article.image_url
+                                  ? article.image_url
                                   : "https://img.freepik.com/free-photo/digital-world-map-hologram-red-background_1379-901.jpg?w=1380&t=st=1686790387~exp=1686790987~hmac=944bb5c2348714bc1aba9d8c7949cd6b9bc197aa9fb668c5008d384c20ef8aad"
                               }
                               alt=""
@@ -244,13 +239,13 @@ export default function ArticleList() {
                               {article.author
                                 ? article.author +
                                   " (" +
-                                  article.source.name +
+                                  article.source_name +
                                   ")"
-                                : article.source.name}
+                                : article.source_name}
                             </span>
                             <span className="m-3 text-sm inline-flex items-center font-medium text-red-600 dark:text-gray-500 hover:underline">
                               {new Date(
-                                article.publishedAt
+                                article.publishing_date
                               ).toLocaleDateString()}
                             </span>
                           </div>
@@ -279,74 +274,6 @@ export default function ArticleList() {
           )}
         </div>
       </section>
-      {/* <div className="relative mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-26">
-        {loading ? (
-          <div>
-            <ArticleListSkeleton />
-          </div>
-        ) : (
-          <div className="gap-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {articles && articles.length > 0 ? (
-              <>
-                {articles.map((article, i) => (
-                  <div
-                    key={i++}
-                    className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <a target="_blank" href={article.url}>
-                      <img
-                        className="rounded-t-lg"
-                        style={{
-                          height: "240px",
-                          width: "100%",
-                          objectFit: "cover",
-                        }}
-                        src={
-                          article.urlToImage
-                            ? article.urlToImage
-                            : "https://img.freepik.com/free-photo/digital-world-map-hologram-red-background_1379-901.jpg?w=1380&t=st=1686790387~exp=1686790987~hmac=944bb5c2348714bc1aba9d8c7949cd6b9bc197aa9fb668c5008d384c20ef8aad"
-                        }
-                        alt=""
-                      />
-                    </a>
-                    <div className="p-5">
-                      <a target="_blank" href={article.url}>
-                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                          {article.title}
-                        </h5>
-                      </a>
-                      <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
-                        {article.description}
-                      </p>
-                      <p className="font-thin text-sm text-gray-800 dark:text-gray-500">
-                        {article.author
-                          ? article.author + " (" + article.source.name + ")"
-                          : article.source.name}{" "}
-                        - {new Date(article.publishedAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-                <div className="col-span-3 flex justify-center items-center">
-                  <button
-                    onClick={loadMore}
-                    type="button"
-                    className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                  >
-                    Load More
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h1 className="col-span-3 mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                  No articles found.
-                </h1>
-              </>
-            )}
-          </div>
-        )}
-      </div> */}
     </>
   );
 }

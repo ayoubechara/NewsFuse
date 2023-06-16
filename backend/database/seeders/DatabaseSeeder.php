@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             'name' => "Ayoub Echara",
             'email' => "ayoub@gmail.com",
+            'categories' => "[]",
+            'sources' => "[]",
             'password' => Hash::make('ayoub1416'),
         ]);
         DB::table('categories')->insert([
@@ -46,6 +48,24 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('categories')->insert([
             'name' => "Technology",
+        ]);
+        DB::table('categories')->insert([
+            'name' => "Politics",
+        ]);
+        DB::table('categories')->insert([
+            'name' => "Culture",
+        ]);
+        DB::table('categories')->insert([
+            'name' => "Fashion",
+        ]);
+        DB::table('categories')->insert([
+            'name' => "Art",
+        ]);
+        DB::table('categories')->insert([
+            'name' => "Food",
+        ]);
+        DB::table('categories')->insert([
+            'name' => "World",
         ]);
     }
 }

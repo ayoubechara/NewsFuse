@@ -6,8 +6,9 @@ import { UserIcon } from "@heroicons/react/24/outline";
 import { AdjustmentsVerticalIcon } from "@heroicons/react/24/solid";
 
 export default function UserPreference() {
-  const [sources, setSources] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const sources = ["NewsAPI", "The Guardian", "The New York Times"];
 
   const [userCategories, setUserCategories] = useState([]);
   const [userSources, setUserSources] = useState([]);
@@ -24,13 +25,16 @@ export default function UserPreference() {
   const fetchAll = async () => {
     setLoading(true);
     try {
-      const response = await axiosClient.get("/get-preferences");
-      setSources(response.data.sources);
+      const response = await axiosClient.get("/preferences");
+
       setCategories(response.data.categories);
+
       setUserCategories(response.data.userCategories);
       setUserSources(response.data.userSources);
+
       setCategoriesCheckboxes(response.data.userCategories);
       setSourcesCheckboxes(response.data.userSources);
+
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch sources:", error);
@@ -186,47 +190,38 @@ export default function UserPreference() {
             <ul className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 lg:grid-cols-4">
               {!loading && (
                 <>
-                  {sources &&
-                    sources.map((source, i) => (
-                      <li key={i}>
-                        {userSources && userSources.includes(source.id) ? (
-                          <input
-                            type="checkbox"
-                            id={"source " + i}
-                            value={source.id}
-                            onChange={handleSourcesCheckboxChange}
-                            defaultChecked
-                            className="hidden peer"
-                          />
-                        ) : (
-                          <input
-                            type="checkbox"
-                            id={"source " + i}
-                            value={source.id}
-                            onChange={handleSourcesCheckboxChange}
-                            className="hidden peer"
-                          />
-                        )}
-                        <label
-                          htmlFor={"source " + i}
-                          className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                        >
-                          <div className="block">
-                            <div className="w-full text-lg font-semibold">
-                              {source.name}
-                            </div>
+                  {sources.map((source, i) => (
+                    <li key={i}>
+                      {userSources && userSources.includes(source) ? (
+                        <input
+                          type="checkbox"
+                          id={"source " + i}
+                          value={source}
+                          onChange={handleSourcesCheckboxChange}
+                          defaultChecked
+                          className="hidden peer"
+                        />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          id={"source " + i}
+                          value={source}
+                          onChange={handleSourcesCheckboxChange}
+                          className="hidden peer"
+                        />
+                      )}
+                      <label
+                        htmlFor={"source " + i}
+                        className="inline-flex items-center justify-center w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-red-800 hover:text-gray-600 dark:peer-checked:text-gray-300 dark:peer-checked:bg-red-600 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+                      >
+                        <div className="block">
+                          <div className="w-full text-lg font-semibold">
+                            {source}
                           </div>
-                        </label>
-                      </li>
-                    ))}
-                  {!sources && (
-                    <h1 className="col-span-3 mb-4 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">
-                      No sources found.{" "}
-                      <span className="text-sm font-thin">
-                        (Change the API KEY)
-                      </span>
-                    </h1>
-                  )}
+                        </div>
+                      </label>
+                    </li>
+                  ))}
                 </>
               )}
             </ul>
