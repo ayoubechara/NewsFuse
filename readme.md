@@ -23,17 +23,13 @@ Follow the steps below to set up and run the News Aggregator website:
 
    - Rename the `.env.example` file in the `backend` directory to `.env` and update the necessary configuration options such as database credentials, API keys, etc.
 
-3. Configure the frontend:
-
-   - Rename the `.env.example` file in the `frontend` directory to `.env` and update the necessary configuration options if required.
-
-4. Build and run the project:
+3. Build and run the project:
 
    ```
    docker-compose up --build
    ```
 
-5. Run Laravel migrations:
+4. Run Laravel migrations:
 
    ```
    docker exec -it newsfuse-backend-1 sh
@@ -45,7 +41,7 @@ Follow the steps below to set up and run the News Aggregator website:
    php artisan migrate:refresh --seed
    ```
 
-6. Access the application:
+5. Access the application:
    - Backend API: http://localhost:8000
    - Frontend application: http://localhost:3000
 
@@ -62,13 +58,14 @@ Once the project is up and running, you can use the News Aggregator website as f
 
 2. Article Search and Filtering:
 
-   - On the homepage, you can search for articles by entering keywords in the search bar.
+   - On the homepage, you will find the news feed where you can search for articles by entering keywords in the search bar.
    - Use the provided filters (date, category, and source) to narrow down the search results.
 
 3. Personalized News Feed:
 
-   - Customize your news feed by visiting the Preferences page.
-   - Select your preferred categories and sources to personalize the articles displayed on your homepage.
+   - To customize your news feed according to your preferences, simply access the preferences page by clicking on 'Preferences' located in the user dropdown menu.
+     ![image](https://github.com/eKyrius/NewsFuse/assets/59415322/6686e24b-f97b-4234-8fea-30537d47b416)
+   - Select your preferred categories and sources to personalize the articles displayed on your news feed.
 
 4. Mobile-Responsive Design:
    - The News Aggregator website is optimized for viewing on mobile devices. You can access and use the website on your smartphone or tablet.
