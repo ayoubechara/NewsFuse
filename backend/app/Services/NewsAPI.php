@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
+use function PHPUnit\Framework\isEmpty;
+
 class NewsAPI
 {
     protected $client;
@@ -19,56 +21,50 @@ class NewsAPI
         $this->apiKey = config('services.newsapi.api_key');
     }
 
-    public function getAllSources()
+    public function getArticles($keyword, $category, $date, $limit)
     {
-        $response = Http::get('https://newsapi.org/v2/sources', [
-            'apiKey' => $this->apiKey,
-        ]);
-        if ($response->successful()) {
-            $sources = $response->json()['sources'];
-
-            return $sources;
+        if (empty($keyword) && empty($category)) {
+            $response = Http::get('https://newsapi.org/v2/top-headlines', [
+                'sources' => 'abc-news,associated-press,bbc-news,bloomberg,cnn,espn,financial-times,fox-news,google-news,nbc-news,the-new-york-times,reuters,the-guardian,the-washington-post,usa-today',
+                'pageSize' => $limit,
+                'apiKey' => $this->apiKey,
+            ]);
         } else {
-            return null;
+            $response = Http::get('https://newsapi.org/v2/top-headlines', [
+                'q' => $keyword,
+                'category' => strtolower($category),
+                'from' => $date,
+                'pageSize' => $limit,
+                'apiKey' => $this->apiKey,
+            ]);
         }
-    }
+        $data = $response->json();
 
-    public function getArticlesByPreferences($keyword, $category, $source, $date, $limit)
-    {
-        /** @var User $user*/
-        $user = Auth::user();
+        $articles = [];
+        if (isset($data['articles'])) {
+            foreach ($data['articles'] as $article) {
+                $title = $article['title'];
+                $description = $article['description'];
+                $source_name = $article['source']['name'];
+                $author = $article['author'];
+                $publishing_date = $article['publishedAt'];
+                $url = $article['url'];
+                $image_url = $article['urlToImage'];
 
-        $user_sources = implode(",", json_decode($user->sources, true));
+                $article_obj = [
+                    'title' => $title,
+                    'description' => $description,
+                    'source_name' => $source_name,
+                    'author' => $author,
+                    'publishing_date' => $publishing_date,
+                    'url' => $url,
+                    'image_url' => $image_url
+                ];
 
-        if (!$keyword && !$category && !$source) {
-            $source = $user_sources;
+                $articles[] = $article_obj;
+            }
         }
-        $query = [
-            'apiKey' => $this->apiKey,
-            'q' => $keyword,
-            'category' => $category,
-            'sources' => $source,
-            'from' => $date,
-            'pageSize' => $limit,
-            'language' => 'en',
-            'sortBy' => 'publishedAt'
-        ];
-        if ($category) {
-            $response = $this->client->get('top-headlines', ['query' => $query]);
-        } else {
-            $response = $this->client->get('everything', ['query' => $query]);
-        }
-        $articles = json_decode($response->getBody(), true)['articles'];
 
         return $articles;
-    }
-
-    public function getUserCategories()
-    {
-        /** @var User $user*/
-        $user = Auth::user();
-
-        $result = $user->categories()->get();
-        return response()->json($result);
     }
 }

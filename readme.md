@@ -22,6 +22,7 @@ Follow the steps below to set up and run the News Aggregator website:
 2. Configure the backend:
 
    - Rename the `.env.example` file in the `backend` directory to `.env` and update the necessary configuration options such as database credentials, API keys, etc.
+   - The API Keys you will need are: NewsAPI, The New York Times, The Guardian.
 
 3. Build and run the project:
 
@@ -71,4 +72,4 @@ Once the project is up and running, you can use the News Aggregator website as f
 
 ## API Keys
 
-To access the article data from various sources, the project relies on external APIs that may require API keys. Please make sure to obtain an API key from the NewsAPI website to get up to 128 news sources and put it in the `.env` file of the backend application.
+To access the article data from various sources, the project relies on external APIs that may require API keys. Please make sure to obtain the necessary API keys (NewsAPI, NYT API, TheGuardianAPI) and update the corresponding configuration options in the .env file of the backend application.
