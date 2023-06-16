@@ -7,7 +7,6 @@ This documentation provides instructions on setting up and running the News Aggr
 Before getting started, ensure that you have the following software installed on your machine:
 
 - Docker: [Installation Guide](https://docs.docker.com/get-docker/)
-- Docker Compose: [Installation Guide](https://docs.docker.com/compose/install/)
 
 ## Getting Started
 
