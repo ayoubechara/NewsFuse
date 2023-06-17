@@ -24,7 +24,7 @@ services:
     networks:
       - my-network
   database:
-    image: mysql:5.7
+    image: mysql:5.7.32
     environment:
       MYSQL_DATABASE: 'news_fuse'
       MYSQL_USER: 'root'
