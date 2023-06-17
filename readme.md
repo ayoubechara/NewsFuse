@@ -23,11 +23,17 @@ Follow the steps below to set up and run the News Aggregator website:
 
    - Rename the `.env.example` file in the `backend` directory to `.env` and update the necessary configuration options such as database credentials, API keys, etc.
    - The API Keys you will need are: NewsAPI, The New York Times, The Guardian.
+     
+   ```
+   NEWS_API_KEY=YOUR_NEWS_API_KEY
+   NYT_API_KEY=YOUR_NEW_YORK_TIMES_API_KEY
+   THE_GUARDIAN_API_KEY=YOUR_THE_GUARDIAN_API_KEY
+   ```
 
 3. Build and run the project:
 
    ```
-   docker-compose up --build
+   docker-compose up -d --build
    ```
 
 4. Run Laravel migrations:
