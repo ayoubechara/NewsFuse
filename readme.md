@@ -15,7 +15,7 @@ Follow the steps below to set up and run the News Aggregator website:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/eKyrius/NewsFuse.git
+   git clone https://github.com/ayoubechara/NewsFuse.git
    cd NewsFuse
    ```
 
